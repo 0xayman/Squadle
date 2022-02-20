@@ -116,7 +116,6 @@ export const GameProvider: FC = ({ children }) => {
 
   const startSinglePlayerGame = async () => {
     const wordle: string = await getWordle()
-    console.log(wordle)
     setWordle(wordle)
     initializeGameState()
   }
@@ -208,17 +207,7 @@ export const GameProvider: FC = ({ children }) => {
   const updatePlayerScore = (newBoard: ICell[][]): IRoom => {
     let newRoom = { ...room! }
     let playerScoreIncrement: number = 0
-    console.log(checkedCells)
     newBoard[currentRow].forEach((cell) => {
-      console.log(
-        cell,
-        checkedCells.some(
-          (item) =>
-            item.value === cell.value &&
-            item.status === item.status &&
-            item.col === cell.col
-        )
-      )
       if (
         !checkedCells.some(
           (item) =>
@@ -248,7 +237,6 @@ export const GameProvider: FC = ({ children }) => {
         }),
       }
     }
-    console.log(newRoom)
     setRoom(newRoom)
     return newRoom
   }
