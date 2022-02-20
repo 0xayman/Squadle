@@ -248,7 +248,6 @@ export const GameProvider: FC = ({ children }) => {
         }),
       }
     }
-    console.log(newRoom)
     setRoom(newRoom)
     return newRoom
   }
