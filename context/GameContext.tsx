@@ -32,6 +32,7 @@ const initialGameContext: IGameContext = {
   createRoom: (room: IRoom): IRoom => room,
   setRoom: (room: IRoom) => {},
   setGameOver: (gameOver: boolean) => {},
+  initializeGameState: () => {},
 }
 
 const GameContext = createContext<IGameContext>(initialGameContext)
@@ -84,7 +85,10 @@ export const GameProvider: FC = ({ children }) => {
   }
 
   const createRoom = (room: IRoom) => {
-    setRoom(() => room)
+    setRoom((prevRoom) => ({
+      ...prevRoom!,
+      ...room,
+    }))
     setWordle(() => room.wordle)
     return room
   }
@@ -116,7 +120,6 @@ export const GameProvider: FC = ({ children }) => {
 
   const startSinglePlayerGame = async () => {
     const wordle: string = await getWordle()
-    console.log(wordle)
     setWordle(wordle)
     initializeGameState()
   }
@@ -124,13 +127,8 @@ export const GameProvider: FC = ({ children }) => {
   const startMultiPlayerGame = async () => {
     initializeGameState()
     if (room) {
-      // reset room with new wordle
-      // reset players scores and attempts
-
-      const wordle: string = await getWordle()
       const newRoom = {
         ...room,
-        wordle,
         players: room.players.map((player) => ({
           ...player,
           score: 0,
@@ -208,17 +206,7 @@ export const GameProvider: FC = ({ children }) => {
   const updatePlayerScore = (newBoard: ICell[][]): IRoom => {
     let newRoom = { ...room! }
     let playerScoreIncrement: number = 0
-    console.log(checkedCells)
     newBoard[currentRow].forEach((cell) => {
-      console.log(
-        cell,
-        checkedCells.some(
-          (item) =>
-            item.value === cell.value &&
-            item.status === item.status &&
-            item.col === cell.col
-        )
-      )
       if (
         !checkedCells.some(
           (item) =>
@@ -396,6 +384,7 @@ export const GameProvider: FC = ({ children }) => {
         startMultiPlayerGame,
         resetGameContext,
         createRoom,
+        initializeGameState,
       }}
     >
       {children}

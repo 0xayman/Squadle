@@ -23,7 +23,9 @@ const GamePage = () => {
     setGameOver,
     resetGameContext,
     channel,
-    startMultiPlayerGame,
+    initializeGameState,
+    playing,
+    createRoom,
   } = useContext(GameContext)
 
   const [playerLeftAlert, setPlayerLeftAlert] = useState(false)
@@ -34,12 +36,16 @@ const GamePage = () => {
 
   const router = useRouter()
 
-  const askToPlayAgain = () => {
+  const askToPlayAgain = async () => {
     setWaitPlayAgainAlert(true)
     channel?.trigger('client-play-again-request', {})
   }
 
   useEffect(() => {
+    if (!playing) {
+      router.replace('/')
+    }
+
     if (room) {
       channel?.bind('client-score-updated', (room: IRoom) => {
         setRoom(room)
@@ -65,8 +71,9 @@ const GamePage = () => {
         setPlayAgainRequestAlert(true)
       })
 
-      channel?.bind('client-accept-play-again-request', () => {
-        startMultiPlayerGame()
+      channel?.bind('client-accept-play-again-request', (newRoom: IRoom) => {
+        createRoom(newRoom)
+        initializeGameState()
         setPlayAgainRequestAlert(false)
         setWaitPlayAgainAlert(false)
       })

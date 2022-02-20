@@ -81,19 +81,23 @@ const CreateGamePage = () => {
         <h1 className='text-5xl font-bold uppercase'>Squadle</h1>
       </div>
       {!isWaiting && (
-        <div className='mt-4'>
-          <input
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            className=' w-80 rounded-l border-none bg-gray-soft px-4 py-2 ring-inset ring-green-dark focus:outline-none focus:ring-1'
-            placeholder='Username'
-          />
-          <button
-            onClick={createGame}
-            className=' rounded-r bg-green-dark px-4 py-2 font-bold uppercase transition-all duration-100 hover:bg-green-800'
-          >
-            Start Game
-          </button>
+        <div className='mt-4 flex flex-col gap-y-2'>
+          <div>
+            <input
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              className=' w-80 rounded-l border-none bg-gray-soft px-4 py-2 ring-inset ring-green-dark focus:outline-none focus:ring-1'
+              placeholder='Username'
+            />
+          </div>
+          <div className='w-full'>
+            <button
+              onClick={createGame}
+              className=' w-full rounded bg-green-dark px-4 py-2 font-bold uppercase transition-all duration-100 hover:bg-green-800'
+            >
+              Create Game
+            </button>
+          </div>
         </div>
       )}
       {isWaiting && (

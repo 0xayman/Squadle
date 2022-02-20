@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import { PresenceChannel } from 'pusher-js'
 import { useContext } from 'react'
 import GameContext from '../../context/GameContext'
+import getWordle from '../../helpers/getWordle'
 import { IRoom } from '../../interfaces/IRoom'
 
 interface ComponentProps {
@@ -17,13 +18,28 @@ const WaitPlayAgainAlert: NextPage<ComponentProps> = ({
   channel,
   setPlayAgainRequestAlert,
 }) => {
-  const { startMultiPlayerGame, resetGameContext } = useContext(GameContext)
+  const { initializeGameState, resetGameContext, createRoom } =
+    useContext(GameContext)
 
   const router = useRouter()
 
-  const acceptPlayAgainRequest = () => {
-    channel?.trigger('client-accept-play-again-request', {})
-    startMultiPlayerGame()
+  const acceptPlayAgainRequest = async () => {
+    //  get wordle
+    const wordle: string = await getWordle()
+
+    // create room
+    const newRoom: IRoom = createRoom({
+      ...room!,
+      wordle: wordle,
+      players: room.players.map((player) => ({
+        ...player,
+        score: 0,
+        attempts: 6,
+      })),
+    })
+
+    channel?.trigger('client-accept-play-again-request', newRoom)
+    initializeGameState()
     setPlayAgainRequestAlert(false)
   }
 

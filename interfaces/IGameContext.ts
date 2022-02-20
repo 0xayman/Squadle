@@ -24,4 +24,5 @@ export default interface IGameContext {
   createRoom: (room: IRoom) => IRoom
   setRoom: (room: IRoom) => void
   setGameOver: (gameOver: boolean) => void
+  initializeGameState: () => void
 }
