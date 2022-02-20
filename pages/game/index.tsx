@@ -100,7 +100,7 @@ const GamePage = () => {
 
   return (
     <div className='relative flex h-screen flex-col pt-2 text-whitesmock dark:bg-gray-dark'>
-      <div className='flex w-full items-center justify-between border-b border-gray-soft px-16 pb-2'>
+      <div className='flex w-full items-center justify-center border-b border-gray-soft px-16 pb-2'>
         <h1 className=' text-4xl font-bold uppercase'>Squadle</h1>
       </div>
 

@@ -111,6 +111,7 @@ export const GameProvider: FC = ({ children }) => {
     setGameOver(false)
     setPlaying(true)
     setError('')
+    setCheckedCells([])
   }
 
   const startSinglePlayerGame = async () => {
@@ -170,7 +171,7 @@ export const GameProvider: FC = ({ children }) => {
       setKeyboard((keyboard) => {
         const newKeyboard = keyboard.map((line) => {
           return line.map((key) => {
-            if (key.value === cellValue) {
+            if (key.value === cellValue && key.status !== CellStatus.CORRECT) {
               key.status = cellStatus
             }
             return key
