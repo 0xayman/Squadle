@@ -28,7 +28,7 @@ const HomePage = () => {
         </button>
         <Link href='/create-or-join'>
           <a className=' rounded bg-green-dark px-4 py-2 font-bold uppercase transition-all duration-100 hover:bg-green-800'>
-            Player With Friends
+            Play With Friends
           </a>
         </Link>
       </div>
